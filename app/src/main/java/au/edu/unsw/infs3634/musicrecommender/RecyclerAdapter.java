@@ -3,31 +3,40 @@ package au.edu.unsw.infs3634.musicrecommender;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> implements Filterable {
     private ArrayList<Music> music;
-    private RecyclerViewClickListener listener;
+    //private RecyclerViewClickListener listener;
+    private MusicListener mMusicListener;
     private ArrayList<Music> musicFiltered;
+    private List<Music> musicFull;
 
-    public RecyclerAdapter(ArrayList<Music> music, RecyclerViewClickListener listener) {
+    public RecyclerAdapter(ArrayList<Music> music, MusicListener listener) {
         this.music = music;
-        this.listener = listener;
+        //this.listener = listener;
+        musicFull = new ArrayList<>(music);
+        this.mMusicListener = listener;
         this.musicFiltered = music;
     }
 
+    //filter
 
     @NonNull
     @Override
     public RecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_items, parent, false);
-        return new ViewHolder(itemView);
+        return new ViewHolder(itemView, mMusicListener);
     }
 
     @Override
@@ -38,8 +47,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         int rating = music.get(position).getRating();
         String description = music.get(position).getDescription();
 
-        holder.setData(name,artist,genre);
+        holder.setData(name,artist,genre, rating);
         holder.setImages(name);
+        holder.setRank(name);
     }
 
     @Override
@@ -47,26 +57,39 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return music.size();
     }
 
+    public interface MusicListener {
+        void onClick(int position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             TextView txtName;
             TextView txtArtist;
             TextView txtGenre;
             ImageView imgAlbum;
+            RatingBar rating;
+            MusicListener musicListener;
+            TextView txtRank;
 
 
-        public ViewHolder(@NonNull View itemView) {
+
+        public ViewHolder(@NonNull View itemView, MusicListener musicListener) {
             super(itemView);
             txtName = itemView.findViewById(R.id.txtName);
             txtArtist = itemView.findViewById(R.id.txtArtist);
             txtGenre = itemView.findViewById(R.id.txtGenre);
+            rating = itemView.findViewById(R.id.rating);
+            txtRank = itemView.findViewById(R.id.txtRank);
+            this.musicListener = musicListener;
             //set onclick listener in view
             itemView.setOnClickListener(this);
         }
 
-        public void setData(String name, String artist, String genre) {
+        public void setData(String name, String artist, String genre, int rate) {
             txtName.setText(name);
             txtArtist.setText(artist);
             txtGenre.setText(genre);
+            rating.setRating(rate);
+
 
         }
 
@@ -104,10 +127,44 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             }
         }
 
+        public void setRank(String name) {
+            imgAlbum = itemView.findViewById(R.id.imgAlbum);
+            if (name.equals("WITHOUT YOU")) {
+                txtRank.setText("3.");
+            }
+            else if(name.equals("Photograph")) {
+                txtRank.setText("2.");
+            }
+            else if(name.equals("Heather")) {
+                txtRank.setText("1.");
+            }
+            else if(name.equals("Trip")) {
+                txtRank.setText("3.");
+            }
+            else if(name.equals("Sativa")) {
+                txtRank.setText("4.");
+            }
+            else if(name.equals("Instagram")) {
+                txtRank.setText("1.");
+            }
+            else if(name.equals("Bye bye my blue")) {
+                txtRank.setText("4.");
+            }
+            else if(name.equals("Wonderland")) {
+                txtRank.setText("4.");
+            }
+            else if(name.equals("Lights")) {
+                txtRank.setText("3.");
+            }
+            else if(name.equals("Dear Name")) {
+                txtRank.setText("2.");
+            }
+        }
+
         @Override
         public void onClick(View view) {
             //might need to change this for filterable
-            listener.onClick(view, getAbsoluteAdapterPosition());
+            musicListener.onClick(getAdapterPosition());
         }
 
     }
@@ -115,4 +172,46 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public interface RecyclerViewClickListener {
         void onClick(View v, int position);
     }
+
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    public Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<Music> filteredList = new ArrayList<>();
+
+            if (charSequence == null || charSequence.length() == 0) {
+                filteredList.addAll(musicFull);
+            } else {
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+
+                for (Music song : musicFull) {
+                    if (song.getName().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(song);
+                    }
+                    if (song.getArtist().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(song);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults results) {
+            music.clear();
+            music.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
 }
+
+

@@ -21,7 +21,7 @@
 
     <ImageView
         android:id="@+id/imgDetail"
-        android:layout_width="354dp"
+        android:layout_width="319dp"
         android:layout_height="162dp"
         android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,10 +57,13 @@
         app:layout_constraintTop_toBottomOf="@+id/txtDetailName" />
 
     <RatingBar
-        android:id="@+id/ratingBar"
-        android:layout_width="110dp"
-        android:layout_height="18dp"
+        android:id="@+id/dRating"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="78dp"
+        android:layout_height="20dp"
         android:layout_marginTop="8dp"
+        android:numStars="5"
+        android:stepSize="0.1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtDetailArtist" />
@@ -77,12 +80,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.025"
         app:layout_constraintStart_toStartOf="@+id/imgDetail"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+        app:layout_constraintTop_toBottomOf="@+id/dRating" />
 
     <TextView
         android:id="@+id/txtDetailAbout"
-        android:layout_width="347dp"
-        android:layout_height="181dp"
+        android:layout_width="310dp"
+        android:layout_height="170dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/playfairdisplayregular"
         android:text="My guy pretty like a girl
@@ -99,14 +102,51 @@ Police think I'm of the underworld"
         app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-    <Button
-        android:id="@+id/button"
+
+    <TextView
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/playfairdisplayregular"
+        android:text="Play Song"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtDetailAbout" />
+        app:layout_constraintTop_toBottomOf="@+id/imgPlay"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imgPlay"
+        android:layout_width="49dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="7dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView7"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/txtDetailAbout"
+        app:srcCompat="@drawable/play" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="123dp"
+        android:layout_height="39dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgPlay"
+        app:layout_constraintEnd_toEndOf="@+id/txtDetailAbout"
+        app:srcCompat="@drawable/rightdivider" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="116dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgPlay"
+        app:layout_constraintStart_toStartOf="@+id/txtDetailAbout"
+        app:srcCompat="@drawable/leftpart" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

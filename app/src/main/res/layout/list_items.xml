@@ -5,68 +5,76 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
     <TextView
         android:id="@+id/txtName"
         android:layout_width="150dp"
         android:layout_height="30dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/playfairdisplayregular"
         android:text="Chanel"
         android:textColor="@color/black"
         android:textSize="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtArtist"
         app:layout_constraintStart_toEndOf="@+id/imgAlbum"
-        app:layout_constraintTop_toTopOf="@+id/imgAlbum"
-        app:layout_constraintVertical_bias="0.875" />
+        app:layout_constraintTop_toTopOf="@+id/imgAlbum" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgAlbum"
-        android:layout_width="47dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="41dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/dean"
+        app:civ_border_color="#000000"
+        app:civ_border_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtRank"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/txtGenre"
         android:layout_width="63dp"
         android:layout_height="23dp"
-        android:layout_marginBottom="4dp"
         android:fontFamily="@font/playfairdisplayregular"
         android:gravity="right"
         android:text="HipHop"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="@+id/txtArtist"
         app:layout_constraintEnd_toEndOf="@+id/rating"
-        app:layout_constraintHorizontal_bias="0.526"
-        app:layout_constraintStart_toStartOf="@+id/rating" />
+        app:layout_constraintTop_toBottomOf="@+id/rating" />
 
     <TextView
         android:id="@+id/txtRank"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="20dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="52dp"
         android:fontFamily="@font/playfairdisplayregular"
         android:text="1."
         android:textColor="@color/black"
-        android:textSize="25dp"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.411" />
 
     <RatingBar
         android:id="@+id/rating"
-        android:layout_width="82dp"
-        android:layout_height="15dp"
-        android:layout_marginBottom="17dp"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="77dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="80dp"
         android:gravity="right"
-        app:layout_constraintBottom_toTopOf="@+id/txtGenre"
+        android:numStars="5"
+        android:stepSize="0.1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/txtName"
-        app:layout_constraintTop_toTopOf="@+id/imgAlbum"
-        app:layout_constraintVertical_bias="0.454" />
+        app:layout_constraintTop_toTopOf="@+id/txtName" />
 
     <TextView
         android:id="@+id/txtArtist"
@@ -78,6 +86,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/imgAlbum"
         app:layout_constraintEnd_toEndOf="@+id/txtName"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/txtName" />
+        app:layout_constraintStart_toStartOf="@+id/txtName"
+        app:layout_constraintTop_toBottomOf="@+id/txtName"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
