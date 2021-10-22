@@ -10,11 +10,11 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="@font/playfairdisplayregular"
         android:text="About"
         android:textColor="@color/black"
-        android:textSize="23dp"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +22,7 @@
     <ImageView
         android:id="@+id/imgDetail"
         android:layout_width="319dp"
-        android:layout_height="162dp"
+        android:layout_height="163dp"
         android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +76,7 @@
         android:fontFamily="@font/playfairdisplayregular"
         android:text="About the Song"
         android:textColor="@color/black"
-        android:textSize="15dp"
+        android:textSize="17dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.025"
         app:layout_constraintStart_toStartOf="@+id/imgDetail"
@@ -109,10 +109,10 @@ Police think I'm of the underworld"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/playfairdisplayregular"
-        android:text="Play Song"
+        android:text="Play  Song"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgPlay"
         app:layout_constraintVertical_bias="0.0" />
@@ -127,7 +127,7 @@ Police think I'm of the underworld"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/txtDetailAbout"
-        app:srcCompat="@drawable/play" />
+        app:srcCompat="@drawable/blue" />
 
     <ImageView
         android:id="@+id/imageView7"
