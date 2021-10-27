@@ -148,5 +148,16 @@ Police think I'm of the underworld"
         app:layout_constraintStart_toStartOf="@+id/txtDetailAbout"
         app:srcCompat="@drawable/leftpart" />
 
+    <ImageView
+        android:id="@+id/imgHeart"
+        android:layout_width="13dp"
+        android:layout_height="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="@+id/textView5"
+        app:srcCompat="@drawable/greenheart" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity implements RecyclerAdapter.MusicListener {
+
     private ArrayList<Music> music;
     private RecyclerView recyclerView;
     private RecyclerAdapter adapter;
@@ -39,6 +40,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.M
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+    }
+
+    //update changes to data onResume
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        setContentView(R.layout.activity_main);
 
         music = Music.getMusic();
         //setOnClickListener();
@@ -81,8 +90,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.M
 
             }
         });
-    }
 
+    }
     private void setOnClickListener() {
         listener = new RecyclerAdapter.RecyclerViewClickListener() {
             @Override

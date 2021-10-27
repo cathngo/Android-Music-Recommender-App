@@ -1,6 +1,8 @@
 package au.edu.unsw.infs3634.musicrecommender;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -23,6 +26,10 @@ public class DetailActivity extends AppCompatActivity {
     private TextView txtDetailAbout;
     private RatingBar rating;
     private ImageView imgPlay;
+    private ImageView imgHeart;
+    private RecyclerAdapter adapter;
+
+    boolean favourite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +38,6 @@ public class DetailActivity extends AppCompatActivity {
 
         Intent incomingIntent = getIntent();
         String song = incomingIntent.getStringExtra("Song");
-
         setImages(song);
 
         music = Music.getMusic();
@@ -40,12 +46,33 @@ public class DetailActivity extends AppCompatActivity {
         txtDetailAbout = findViewById(R.id.txtDetailAbout);
         rating = findViewById(R.id.dRating);
         imgPlay = findViewById(R.id.imgPlay);
+        imgHeart = findViewById(R.id.imgHeart);
 
 
         txtDetailName.setText(findSong(song,1));
         txtDetailArtist.setText(findSong(song,2));
         txtDetailAbout.setText(findSong(song,3));
         rating.setRating(findRating(song));
+        /**
+        //onclick for favourite button
+        favourite = getFavourite(song);
+        imgHeart.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //if not favourited, set icon to default
+                if (favourite == false){
+                    imgHeart.setImageResource(R.drawable.thickheart);
+                    //else mark as favourited
+                } else {
+                    imgHeart.setImageResource(R.drawable.greenheart);
+                }
+
+                //search arraylist for song name and mark as favourite
+                //setFavourite(song);
+                getIndex(song);
+            }
+        }));
+         **/
 
         //onclick for play button
         imgPlay.setOnClickListener(new View.OnClickListener() {
@@ -83,12 +110,41 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    //update changes to data onResume
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        Intent incomingIntent = getIntent();
+        String song = incomingIntent.getStringExtra("Song");
+        //onclick for favourite button
+        favourite = getFavourite(song);
 
+        if (favourite == true) {
+            imgHeart.setImageResource(R.drawable.thickheart);
+        } else {
+            imgHeart.setImageResource(R.drawable.greenheart);
+        }
+        imgHeart.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //if not favourited, set icon to default
+                if (favourite == false){
+                    imgHeart.setImageResource(R.drawable.thickheart);
+                    //else mark as favourited
+                } else {
+                    imgHeart.setImageResource(R.drawable.greenheart);
+                }
 
+                //search arraylist for song name and mark as favourite
+                //setFavourite(song);
+                getIndex(song);
+            }
+        }));
 
 
     }
-
 
     public void setImages(String name) {
         imgAlbum = findViewById(R.id.imgDetail);
@@ -144,10 +200,8 @@ public class DetailActivity extends AppCompatActivity {
                 if (key == 4) {
                     return music.getGenre();
                 }
-
             }
         }
-
         return "not found";
     }
 
@@ -158,12 +212,64 @@ public class DetailActivity extends AppCompatActivity {
             if(music.getName().equals(song)) {
                 //return information
                 return music.getRating();
+            }
+        }
+        return -1;
+    }
+
+    public void setFavourite(String song) {
+        //loop through arraylist, find song
+        ArrayList<Music> musicList = Music.getMusic();
+        for (Music music: musicList) {
+            if(music.getName().equals(song)) {
+                //return information
+                music.setFav(true);
+            }
+        }
+    }
+
+    public boolean getFavourite(String song) {
+        //loop through arraylist, find song
+        ArrayList<Music> musicList = Music.getMusic();
+        for (Music music: musicList) {
+            if(music.getName().equals(song)) {
+                //return information
+                return music.getFav();
+            }
+        }
+        return false;
+
+    }
+
+    public void getIndex(String itemName)
+    {
+        for (int i = 0; i < Music.musicList.size(); i++)
+        {
+            Music song = Music.musicList.get(i);
+            if (itemName.equals(song.getName()))
+            {
+                //original entires
+                String name = song.getName();
+                int rate = song.getRating();
+                String artist = song.getArtist();
+                String desc = song.getDescription();
+                String genre = song.getGenre();
+                boolean fav = song.getFav();
+                boolean newFav;
+
+                if (fav == false) {
+                    newFav = true;
+                } else {
+                    newFav = false;
+                }
+
+                Music.musicList.set(i, new Music(name,artist,genre,rate,desc,newFav));
 
             }
         }
 
-        return -1;
     }
+
 
     //onClick method for video btn
     public void gotoUrl(String s) {

@@ -17,7 +17,6 @@ import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> implements Filterable {
     private ArrayList<Music> music;
-    //private RecyclerViewClickListener listener;
     private MusicListener mMusicListener;
     private ArrayList<Music> musicFiltered;
     private List<Music> musicFull;
@@ -46,8 +45,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         String genre = music.get(position).getGenre();
         int rating = music.get(position).getRating();
         String description = music.get(position).getDescription();
+        boolean fav = music.get(position).getFav();
 
-        holder.setData(name,artist,genre, rating);
+
+        holder.setData(name,artist,genre, rating, fav);
         holder.setImages(name);
         holder.setRank(name);
     }
@@ -66,6 +67,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             TextView txtArtist;
             TextView txtGenre;
             ImageView imgAlbum;
+            ImageView imgFav;
             RatingBar rating;
             MusicListener musicListener;
             TextView txtRank;
@@ -79,16 +81,24 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             txtGenre = itemView.findViewById(R.id.txtGenre);
             rating = itemView.findViewById(R.id.rating);
             txtRank = itemView.findViewById(R.id.txtRank);
+            imgFav = itemView.findViewById(R.id.imgFav);
             this.musicListener = musicListener;
             //set onclick listener in view
             itemView.setOnClickListener(this);
         }
 
-        public void setData(String name, String artist, String genre, int rate) {
+        public void setData(String name, String artist, String genre, int rate, boolean fav) {
             txtName.setText(name);
             txtArtist.setText(artist);
             txtGenre.setText(genre);
             rating.setRating(rate);
+
+            //favourite
+            if (fav == true) {
+                imgFav.setImageResource(R.drawable.thickheart);
+            } else {
+                imgFav.setVisibility(View.INVISIBLE);
+            }
 
 
         }
