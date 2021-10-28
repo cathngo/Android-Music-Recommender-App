@@ -3,8 +3,10 @@ package au.edu.unsw.infs3634.musicrecommender;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+//music class that contains top 10 songs
 public class Music {
     public static ArrayList<Music> musicList = new ArrayList<>();
+    //variable to only load arraylist once upon create
     public static int load = 0;
     private String name;
     private String artist;
@@ -72,6 +74,7 @@ public class Music {
     private String description;
 
 
+    //Creates the music list once upon start, then returns static musiclist to reflect any data changes
     public static ArrayList<Music> getMusic() {
         if (load == 0) {
             musicList.add(new Music("Heather", "Conan Gray", "Pop", 5, "Heather is a song by American singer-songwriter Conan Gray released through Republic Records. Originally released as a track on Gray's debut studio album Kid Krow in March 2020, it was released as the sixth single in September 2020 after becoming a sleeper hit.", false));
@@ -104,6 +107,4 @@ public class Music {
             return t1.getRating() - music.getRating();
         }
     };
-
-
 }

@@ -21,15 +21,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private ArrayList<Music> musicFiltered;
     private List<Music> musicFull;
 
+    //RecyclerAdapter constructur
     public RecyclerAdapter(ArrayList<Music> music, MusicListener listener) {
         this.music = music;
-        //this.listener = listener;
         musicFull = new ArrayList<>(music);
         this.mMusicListener = listener;
         this.musicFiltered = music;
     }
-
-    //filter
 
     @NonNull
     @Override
@@ -72,8 +70,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             MusicListener musicListener;
             TextView txtRank;
 
-
-
         public ViewHolder(@NonNull View itemView, MusicListener musicListener) {
             super(itemView);
             txtName = itemView.findViewById(R.id.txtName);
@@ -93,16 +89,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             txtGenre.setText(genre);
             rating.setRating(rate);
 
-            //favourite
+            //set favourite icon to pink heart if favourited
             if (fav == true) {
                 imgFav.setImageResource(R.drawable.thickheart);
             } else {
+                //set favourite icon to green heart if not favourited
                 imgFav.setVisibility(View.INVISIBLE);
             }
-
-
         }
 
+        //set the album images for each song
         public void setImages(String name) {
             imgAlbum = itemView.findViewById(R.id.imgAlbum);
             if (name.equals("WITHOUT YOU")) {
@@ -137,6 +133,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             }
         }
 
+        //set the ranking for each song
         public void setRank(String name) {
             imgAlbum = itemView.findViewById(R.id.imgAlbum);
             if (name.equals("WITHOUT YOU")) {
@@ -171,18 +168,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             }
         }
 
+        //set onclick listener
         @Override
         public void onClick(View view) {
-            //might need to change this for filterable
             musicListener.onClick(getAdapterPosition());
         }
-
     }
 
+    //interface for recycler view click listener
     public interface RecyclerViewClickListener {
         void onClick(View v, int position);
     }
 
+    //Search function
     @Override
     public Filter getFilter() {
         return exampleFilter;
@@ -191,6 +189,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
+            //Create a filtered list and add search entries to this list
             List<Music> filteredList = new ArrayList<>();
 
             if (charSequence == null || charSequence.length() == 0) {
@@ -199,10 +198,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 String filterPattern = charSequence.toString().toLowerCase().trim();
 
                 for (Music song : musicFull) {
+                    //searches name of song
                     if (song.getName().toLowerCase().contains(filterPattern)) {
                         filteredList.add(song);
                     }
+                    //searches artist of song
                     if (song.getArtist().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(song);
+                    }
+                    //searches genre of song
+                    if (song.getGenre().toLowerCase().contains(filterPattern)) {
                         filteredList.add(song);
                     }
                 }
@@ -214,6 +219,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             return results;
         }
 
+        //Adds the results from the search function and notifies data change
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults results) {
             music.clear();
@@ -221,7 +227,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             notifyDataSetChanged();
         }
     };
-
 }
 
 

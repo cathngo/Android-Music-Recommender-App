@@ -27,8 +27,6 @@ public class DetailActivity extends AppCompatActivity {
     private RatingBar rating;
     private ImageView imgPlay;
     private ImageView imgHeart;
-    private RecyclerAdapter adapter;
-
     boolean favourite;
 
     @Override
@@ -36,11 +34,12 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        //receive the song name passed from main activity
         Intent incomingIntent = getIntent();
         String song = incomingIntent.getStringExtra("Song");
         setImages(song);
 
-        music = Music.getMusic();
+        //Find the ids for the UI elements
         txtDetailName = findViewById(R.id.txtDetailName);
         txtDetailArtist = findViewById(R.id.txtDetailArtist);
         txtDetailAbout = findViewById(R.id.txtDetailAbout);
@@ -48,33 +47,14 @@ public class DetailActivity extends AppCompatActivity {
         imgPlay = findViewById(R.id.imgPlay);
         imgHeart = findViewById(R.id.imgHeart);
 
-
+        //set the name, artist, rating and short description for each song on the UI
         txtDetailName.setText(findSong(song,1));
         txtDetailArtist.setText(findSong(song,2));
         txtDetailAbout.setText(findSong(song,3));
         rating.setRating(findRating(song));
-        /**
-        //onclick for favourite button
-        favourite = getFavourite(song);
-        imgHeart.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //if not favourited, set icon to default
-                if (favourite == false){
-                    imgHeart.setImageResource(R.drawable.thickheart);
-                    //else mark as favourited
-                } else {
-                    imgHeart.setImageResource(R.drawable.greenheart);
-                }
 
-                //search arraylist for song name and mark as favourite
-                //setFavourite(song);
-                getIndex(song);
-            }
-        }));
-         **/
 
-        //onclick for play button
+        //Set onclick listener for the play button to play the song's youtube mv
         imgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,41 +91,46 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
-    //update changes to data onResume
+
+    //Reflect changes in user favourited songs onResume
     @Override
     public void onResume()
     {
         super.onResume();
         Intent incomingIntent = getIntent();
         String song = incomingIntent.getStringExtra("Song");
-        //onclick for favourite button
-        favourite = getFavourite(song);
 
+        //Check if the user has favourited the song
+        favourite = getFavourite(song);
+        //Set the favourite icon to the pink heart if it has been favourited
         if (favourite == true) {
             imgHeart.setImageResource(R.drawable.thickheart);
         } else {
+            //Set the favourite icon to the green heart if it has not been favourited
             imgHeart.setImageResource(R.drawable.greenheart);
         }
+
+        //Set on click listener to detect if user has favourited song or not
         imgHeart.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //if not favourited, set icon to default
                 if (favourite == false){
                     imgHeart.setImageResource(R.drawable.thickheart);
-                    //else mark as favourited
+                    //else mark the song as favourited
+                    Toast.makeText(DetailActivity.this, "song added to favourites", Toast.LENGTH_SHORT).show();
                 } else {
                     imgHeart.setImageResource(R.drawable.greenheart);
+                    Toast.makeText(DetailActivity.this, "song removed from favourites", Toast.LENGTH_SHORT).show();
                 }
 
-                //search arraylist for song name and mark as favourite
-                //setFavourite(song);
+                //search music list for song name and mark as favourite
                 getIndex(song);
             }
         }));
-
-
     }
 
+    //Set the image to the album cover of the selected song
     public void setImages(String name) {
         imgAlbum = findViewById(R.id.imgDetail);
         if (name.equals("WITHOUT YOU")) {
@@ -180,12 +165,13 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    //Method to return the name, artist, description, genre for a given song
     public String findSong(String song, int key) {
-        //loop through arraylist, find song
+        //loops through musiclist and find song
         ArrayList<Music> musicList = Music.getMusic();
         for (Music music: musicList) {
             if(music.getName().equals(song)) {
-                //return information
+                //returns information based on key
                 if (key == 1) {
                     return music.getName();
                 }
@@ -205,6 +191,7 @@ public class DetailActivity extends AppCompatActivity {
         return "not found";
     }
 
+    //Returns the rating of the song
     public int findRating(String song) {
         //loop through arraylist, find song
         ArrayList<Music> musicList = Music.getMusic();
@@ -217,17 +204,7 @@ public class DetailActivity extends AppCompatActivity {
         return -1;
     }
 
-    public void setFavourite(String song) {
-        //loop through arraylist, find song
-        ArrayList<Music> musicList = Music.getMusic();
-        for (Music music: musicList) {
-            if(music.getName().equals(song)) {
-                //return information
-                music.setFav(true);
-            }
-        }
-    }
-
+    //Returns whether the song was favourited or not
     public boolean getFavourite(String song) {
         //loop through arraylist, find song
         ArrayList<Music> musicList = Music.getMusic();
@@ -241,6 +218,7 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    //updates the value of favourite for a given song
     public void getIndex(String itemName)
     {
         for (int i = 0; i < Music.musicList.size(); i++)
@@ -248,7 +226,7 @@ public class DetailActivity extends AppCompatActivity {
             Music song = Music.musicList.get(i);
             if (itemName.equals(song.getName()))
             {
-                //original entires
+                //Get the original data
                 String name = song.getName();
                 int rate = song.getRating();
                 String artist = song.getArtist();
@@ -257,24 +235,21 @@ public class DetailActivity extends AppCompatActivity {
                 boolean fav = song.getFav();
                 boolean newFav;
 
+                //Change the value of favourite based on user input
                 if (fav == false) {
                     newFav = true;
                 } else {
                     newFav = false;
                 }
-
+                //update the music list to reflect new changes
                 Music.musicList.set(i, new Music(name,artist,genre,rate,desc,newFav));
-
             }
         }
-
     }
 
-
-    //onClick method for video btn
+    //onClick method for play button, goes to the youtube url provided
     public void gotoUrl(String s) {
         Uri uri = Uri.parse(s);
         startActivity(new Intent(Intent.ACTION_VIEW, uri));
-
     }
 }
