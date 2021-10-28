@@ -202,14 +202,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     if (song.getName().toLowerCase().contains(filterPattern)) {
                         filteredList.add(song);
                     }
+
                     //searches artist of song
-                    if (song.getArtist().toLowerCase().contains(filterPattern)) {
+                    else if (song.getArtist().toLowerCase().contains(filterPattern)) {
                         filteredList.add(song);
                     }
                     //searches genre of song
-                    if (song.getGenre().toLowerCase().contains(filterPattern)) {
+                    else if (song.getGenre().toLowerCase().contains(filterPattern)) {
                         filteredList.add(song);
                     }
+
                 }
             }
 
